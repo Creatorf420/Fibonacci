@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ফিবোনাচ্চি মজা!</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    #gameArea {
+      margin-top: 20px;
+    }
+    #userInput {
+      padding: 8px;
+      font-size: 16px;
+    }
+    #checkButton {
+      padding: 8px 16px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>ফিবোনাচ্চি সিকোয়েন্স গেম</h1>
+  <p>ফিবোনাচ্চি সিকোয়েন্সের পরবর্তী সংখ্যাটি অনুমান করার চেষ্টা করুন!</p>
+
+  <div id="gameArea">
+    <p>সিকোয়েন্স: <span id="sequence">০, ১</span></p>
+    <input type="number" id="userInput" placeholder="আপনার অনুমান">
+    <button id="checkButton">চেক করুন</button>
+    <p id="result"></p>
+  </div>
+
+  <script>
+    let sequence = [0, 1];
+    let nextNumber;
+    let originalSequence = [0,1]; // রিসেট করার জন্য এই ভেরিয়েবল যোগ করা হল
+
+    function generateNextNumber() {
+      nextNumber = sequence[sequence.length - 1] + sequence[sequence.length - 2];
+    }
+
+    function checkGuess() {
+      const userGuess = parseInt(document.getElementById("userInput").value);
+      if (userGuess === nextNumber) {
+        document.getElementById("result").textContent = "সঠিক! খুব ভালো!";
+        sequence.push(nextNumber);
+        document.getElementById("sequence").textContent = sequence.join(", ");
+        document.getElementById("userInput").value = "";
+        generateNextNumber();
+      } else {
+        document.getElementById("result").textContent = "উফ! আবার চেষ্টা করুন।";
+        resetGame(); // ভুল হলে রিসেট করার জন্য এই লাইন যোগ করা হল
+      }
+    }
+
+    function resetGame() {
+      sequence = [...originalSequence]; // অরিজিনাল সিকোয়েন্স থেকে সিকোয়েন্স রিসেট করা হল
+      generateNextNumber();
+      document.getElementById("sequence").textContent = sequence.join(", ");
+    }
+
+    generateNextNumber();
+
+    document.getElementById("checkButton").addEventListener("click", checkGuess);
+  </script>
+</body>
+</html>
